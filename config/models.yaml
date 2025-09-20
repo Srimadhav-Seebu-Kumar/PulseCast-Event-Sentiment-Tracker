@@ -1,0 +1,143 @@
+# Machine Learning Models Configuration
+# Configure sentiment analysis and NLP models
+
+# Primary Sentiment Analysis Model
+sentiment_model:
+  name: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+  type: "transformers"
+  task: "sentiment-analysis"
+  threshold: 0.7
+  enabled: true
+  cache_dir: "./models/sentiment"
+  device: "auto"  # auto, cpu, cuda
+  batch_size: 32
+  max_length: 512
+  
+# Emotion Detection Model
+emotion_model:
+  name: "j-hartmann/emotion-english-distilroberta-base"
+  type: "transformers"
+  task: "emotion-detection"
+  enabled: true
+  cache_dir: "./models/emotion"
+  device: "auto"
+  batch_size: 32
+  threshold: 0.6
+  emotions:
+    - "joy"
+    - "sadness"
+    - "anger"
+    - "fear"
+    - "surprise"
+    - "disgust"
+    - "neutral"
+
+# Alternative Sentiment Models (for comparison/fallback)
+alternative_models:
+  vader:
+    name: "vader"
+    type: "rule_based"
+    enabled: true
+    weight: 0.2
+    
+  textblob:
+    name: "textblob"
+    type: "rule_based"
+    enabled: true
+    weight: 0.1
+    
+  bert_base:
+    name: "nlptown/bert-base-multilingual-uncased-sentiment"
+    type: "transformers"
+    enabled: false
+    weight: 0.3
+    cache_dir: "./models/bert_sentiment"
+    device: "auto"
+
+# Language Detection Model
+language_detection:
+  name: "langdetect"
+  enabled: true
+  confidence_threshold: 0.9
+  supported_languages: ["en", "es", "fr", "de", "it", "pt"]
+
+# Topic Modeling Configuration
+topic_modeling:
+  method: "bertopic"  # bertopic, lda, nmf
+  model_name: "all-MiniLM-L6-v2"
+  enabled: true
+  min_topic_size: 15
+  nr_topics: "auto"
+  n_gram_range: [1, 2]
+  calculate_probabilities: true
+  
+# Named Entity Recognition
+ner_model:
+  name: "dbmdz/bert-large-cased-finetuned-conll03-english"
+  type: "transformers"
+  task: "ner"
+  enabled: true
+  cache_dir: "./models/ner"
+  aggregation_strategy: "simple"
+  entity_types:
+    - "PERSON"
+    - "ORG"
+    - "LOC"
+    - "MISC"
+
+# Text Classification (for spam/quality filtering)
+text_classifier:
+  name: "martin-ha/toxic-comment-model"
+  type: "transformers"
+  task: "text-classification"
+  enabled: true
+  cache_dir: "./models/classifier"
+  threshold: 0.8
+  
+# Preprocessing Configuration
+preprocessing:
+  remove_urls: true
+  remove_mentions: false
+  remove_hashtags: false
+  remove_punctuation: false
+  lowercase: true
+  remove_stopwords: false
+  min_length: 10
+  max_length: 512
+  
+# Model Performance Settings
+performance:
+  use_gpu: true
+  mixed_precision: true
+  model_parallel: false
+  max_memory_usage: "80%"  # percentage of GPU memory
+  checkpoint_interval: 1000
+  
+# Ensemble Configuration
+ensemble:
+  enabled: true
+  method: "weighted_average"  # weighted_average, voting, stacking
+  weights:
+    sentiment_model: 0.6
+    vader: 0.2
+    textblob: 0.1
+    bert_base: 0.1
+  
+# Model Evaluation Metrics
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "confusion_matrix"
+  test_split: 0.2
+  cross_validation: true
+  cv_folds: 5
+  
+# Model Update and Retraining
+update_schedule:
+  auto_update: false
+  check_interval: "weekly"  # daily, weekly, monthly
+  retrain_threshold: 0.05  # performance degradation threshold
+  backup_models: true
