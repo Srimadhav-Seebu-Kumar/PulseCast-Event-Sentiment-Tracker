@@ -1,0 +1,84 @@
+# Data Sources Configuration
+# Configure different data sources for sentiment analysis
+
+# Twitter/X API Configuration
+twitter:
+  api_key: "your_twitter_api_key"
+  api_secret: "your_twitter_api_secret"
+  bearer_token: "your_twitter_bearer_token"
+  access_token: "your_twitter_access_token"
+  access_token_secret: "your_twitter_access_token_secret"
+  enabled: true
+  rate_limit: 180  # requests per 15 minutes
+  keywords_limit: 100  # max keywords to track
+
+# Reddit API Configuration
+reddit:
+  client_id: "your_reddit_client_id"
+  client_secret: "your_reddit_client_secret"
+  user_agent: "PulseCast/1.0"
+  enabled: true
+  subreddits:
+    - "technology"
+    - "news"
+    - "worldnews"
+    - "politics"
+  post_limit: 100
+
+# News API Configuration
+news_api:
+  api_key: "your_news_api_key"
+  enabled: true
+  sources:
+    - "bbc-news"
+    - "cnn"
+    - "reuters"
+    - "associated-press"
+  language: "en"
+  page_size: 100
+
+# YouTube API Configuration (Optional)
+youtube:
+  api_key: "your_youtube_api_key"
+  enabled: false
+  max_results: 50
+  regions: ["US", "GB", "CA"]
+
+# Generic RSS Feeds
+rss_feeds:
+  enabled: true
+  feeds:
+    - url: "https://feeds.reuters.com/reuters/topNews"
+      name: "Reuters Top News"
+    - url: "https://rss.cnn.com/rss/edition.rss"
+      name: "CNN Top Stories"
+    - url: "https://feeds.bbci.co.uk/news/rss.xml"
+      name: "BBC News"
+  refresh_interval: 300  # seconds
+
+# Data Collection Settings
+collection:
+  batch_size: 1000
+  max_concurrent_requests: 10
+  retry_attempts: 3
+  retry_delay: 2  # seconds
+  
+# Filtering and Quality Control
+filters:
+  min_text_length: 10
+  max_text_length: 10000
+  exclude_retweets: true
+  exclude_replies: false
+  language_filter: ["en"]
+  spam_detection: true
+
+# Geographical Configuration
+geo:
+  enabled: true
+  regions:
+    - "US"
+    - "GB"
+    - "CA"
+    - "AU"
+    - "IN"
+  location_extraction: true
